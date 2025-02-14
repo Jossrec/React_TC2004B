@@ -1,12 +1,14 @@
 import React from 'react'
+import Boton from './Boton';
 
-const Item = ({item}) => {
+const Item = ({item, ondelete}) => {
   return (
     <div>
-        <ol>
+        <ul>
             <li>{item.name}</li>
             <li>{item.price}</li>
-        </ol>
+            <li><Boton click= {()=>ondelete(item.id)} name= {"X"}/></li>
+        </ul>
     </div>
 );
 }
