@@ -5,6 +5,9 @@ import Footer from './components/Footer';
 import Boton from './components/Boton';
 import List from './components/List';
 import Add from './components/Add';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ResponsiveAppBar from './components/AppBar';
+import CredentialsSignInPage from './components/Login';
 
 function App() {
   const [items, setItems]= useState([{id: 1, name: "item1", price:1},
@@ -31,14 +34,21 @@ function App() {
   };
   return (
     <div>
-      <Header/>
-      {count}
+      <BrowserRouter>
+      <ResponsiveAppBar></ResponsiveAppBar>
+        <Header/>
+        <Routes>
+          <Route path='/' element={<CredentialsSignInPage/>}/>
+          <Route path='/add' element={<Add add= {add}/>}/>
+          <Route path='/items' element={<List items={items} ondelete={del}/>}/>
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
+      
+      {/* {count}s
       <Boton name = {"suma"} click = {sum}/>
       <Boton name = {"resta"} click = {resta}/>
-      <Boton name = {"mensaje"} click = {()=> alert("hola")} />
-      <Add add= {add}/>
-      <List items={items} ondelete={del}/>
-      <Footer/>
+      <Boton name = {"mensaje"} click = {()=> alert("hola")} /> */}
     </div>
   );
 }
