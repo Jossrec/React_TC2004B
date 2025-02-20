@@ -7,14 +7,18 @@ import List from './components/List';
 import Add from './components/Add';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ResponsiveAppBar from './components/AppBar';
-import CredentialsSignInPage from './components/Login';
+import Login from './components/Login';
+
+
 
 function App() {
   const [items, setItems]= useState([{id: 1, name: "item1", price:1},
                 {id: 2, name: "item2", price:2},
                 {id: 3, name: "item3", price:3}]);
 
+
   const [count, setCount]= useState(0);
+  const [isLogin, setIsLogin]= useState(false);
 
   const sum = ()=> {
     setCount(count + 1);
@@ -32,13 +36,24 @@ function App() {
   const del = (id) => {
     setItems(items.filter((item) => item.id !==id));
   };
+  const login = (user) => {
+    if (user.username === "jos" &&
+      user.password ==="123"){
+      setIsLogin(true);
+    }
+    return setIsLogin;
+  };
+
+  const setLogout = ()=>{
+    setIsLogin(false);
+  };
+
   return (
     <div>
       <BrowserRouter>
-      <ResponsiveAppBar></ResponsiveAppBar>
-        <Header/>
+      {isLogin && <ResponsiveAppBar setLogout={setLogout}/>}
         <Routes>
-          <Route path='/' element={<CredentialsSignInPage/>}/>
+          <Route path='/' element={<Login login= {login}/>}/>
           <Route path='/add' element={<Add add= {add}/>}/>
           <Route path='/items' element={<List items={items} ondelete={del}/>}/>
         </Routes>
