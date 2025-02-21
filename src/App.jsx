@@ -1,13 +1,12 @@
 import './App.css';
 import { useState } from 'react';
-import Header from './components/Header';
 import Footer from './components/Footer';
-import Boton from './components/Boton';
 import List from './components/List';
 import Add from './components/Add';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ResponsiveAppBar from './components/AppBar';
-import Login from './components/Login';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 
 
@@ -48,12 +47,15 @@ function App() {
     setIsLogin(false);
   };
 
+
+
   return (
     <div>
       <BrowserRouter>
       {isLogin && <ResponsiveAppBar setLogout={setLogout}/>}
         <Routes>
           <Route path='/' element={<Login login= {login}/>}/>
+          <Route path='/home' element={<Home home= {Home}/>}/>
           <Route path='/add' element={<Add add= {add}/>}/>
           <Route path='/items' element={<List items={items} ondelete={del}/>}/>
         </Routes>
