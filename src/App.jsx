@@ -1,71 +1,68 @@
 import './App.css';
-import { useState } from 'react';
-import Footer from './components/Footer';
+import { useEffect, useState } from 'react';
+// import Footer from './components/Footer';
 import List from './components/List';
 import Add from './components/Add';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ResponsiveAppBar from './components/AppBar';
-import Login from './pages/Login';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ResponsiveAppBar from './components/AppBar.jsx';
 import Home from './pages/Home';
-
-
+import Login from './pages/Login';
 
 function App() {
-  const [items, setItems]= useState([{id: 1, name: "item1", price:1},
-                {id: 2, name: "item2", price:2},
-                {id: 3, name: "item3", price:3}]);
+  const [items, setItems] = useState([]);
+  // const [count, setCount] = useState(0);
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {if (isLogin) {getItems();}}, [isLogin ]);
 
+  const getItems = async () => {
+    const result = await fetch("http://localhost:5000/items/");
+    const data = await result.json();
+    setItems(data);
 
-  const [count, setCount]= useState(0);
-  const [isLogin, setIsLogin]= useState(false);
+  };
+  
+  //const sum = () => {
+    // setCount(count + 1);
+  //};
+  //const resta = () => {
+    //setCount(count - 1);
+  //};
 
-  const sum = ()=> {
-    setCount(count + 1);
+  const add = async (item) => {
+    //item.id = items.length + 1; 
+    const result = await fetch("http://localhost:5000/items/", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(item), });
+    const data = await result.json();
+    setItems([...items, data.item]);
   };
 
-  const resta = ()=> {
-    setCount(count - 1);
+  const del = async (id) => {
+    await fetch("http://localhost:5000/items/" + id, {method:"DELETE"});
+    setItems(items.filter((item) => item.id !== id));
   };
 
-  const add = (item) => {
-    item.id = items.length +1;
-    setItems([...items, item]);
+  const login = async (user) => {
+    const result = await fetch("http://localhost:5000/login/", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(user), });
+    const data = await result.json();
+    setIsLogin(data.isLogin);
+    return isLogin;
   };
 
-  const del = (id) => {
-    setItems(items.filter((item) => item.id !==id));
-  };
-  const login = (user) => {
-    if (user.username === "jos" &&
-      user.password ==="123"){
-      setIsLogin(true);
-    }
-    return setIsLogin;
-  };
-
-  const setLogout = ()=>{
+  const logout = () => {
     setIsLogin(false);
-  };
-
-
-
+  }
   return (
     <div>
-      <BrowserRouter>
-      {isLogin && <ResponsiveAppBar setLogout={setLogout}/>}
+      <BrowserRouter> 
+        {isLogin && <ResponsiveAppBar logout={logout}/>}
         <Routes>
-          <Route path='/' element={<Login login= {login}/>}/>
-          <Route path='/home' element={<Home home= {Home}/>}/>
-          <Route path='/add' element={<Add add= {add}/>}/>
-          <Route path='/items' element={<List items={items} ondelete={del}/>}/>
+          <Route path="/" element={<Login login={login}/>} />
+          <Route path="/add" element={<Add add={add} />} />
+          <Route path="/items" element={<List items={items} ondelete={del} />} />
+          <Route path="/home" element={<Home/>} />
         </Routes>
-        <Footer/>
       </BrowserRouter>
       
-      {/* {count}s
-      <Boton name = {"suma"} click = {sum}/>
-      <Boton name = {"resta"} click = {resta}/>
-      <Boton name = {"mensaje"} click = {()=> alert("hola")} /> */}
+
     </div>
   );
 }

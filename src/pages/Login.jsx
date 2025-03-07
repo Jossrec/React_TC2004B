@@ -16,7 +16,7 @@ const Login = ({login}) => {
     if (isLogin){
       setUsername("");
       setPassword("");
-      navigate("/items");
+      navigate("/home");
     } else{
       alert("el login falló")
     }
@@ -25,25 +25,24 @@ const Login = ({login}) => {
   
   return(
     <form onSubmit={onsubmit}>
-      <Box
-        margin = {"auto"}
-        flexDirection= {"column"}
-        display= {"flex"}
-        width= {400}
-        marginTop= {"20px"}
-      >
-        <TextField label= {"Username"}
-        value={username}
-        onChange= {(e) => setUsername(e.target.value)}/>
-        <TextField label= {"Password"} 
-          type= {"password"}
-          value={password}
-          onChange= {(e) => setPassword(e.target.value)}/>
-        <Button type={"submit"} variant="contained">
-          Login 
-        </Button>
+      <Box margin={"auto"} flexDirection={"column"} display={"flex"} width={400} marginTop={"20px"}>
+        <TextField 
+          label={"Username"} 
+          value={username} 
+          onChange={(e)=>setUsername(e.target.value)}
+        />
+        <br></br>
+        <TextField 
+          label={"Password"}
+          type={"password"} 
+          value={password} 
+          onChange={(e)=>setPassword(e.target.value)}
+        />
+        <br></br>
+        <Button variant="contained" type={"submit"}>Login</Button>
       </Box>
     </form>
   );
 };
+
 export default Login;
