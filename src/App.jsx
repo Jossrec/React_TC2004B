@@ -27,24 +27,26 @@ function App() {
     setItems(data);
   };
   
-  
-  
-  //const sum = () => {
-    // setCount(count + 1);
-  //};
-  //const resta = () => {
-    //setCount(count - 1);
-  //};
-
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch("http://localhost:5000/items/", {method:"POST", headers:{"content-type":"application/json", }, body:JSON.stringify(item), });
+    const result = await fetch("http://localhost:5000/items/", {
+      method:"POST", 
+      headers:{
+        "content-type":"application/json",
+        "Authorization": localStorage.getItem("Token")
+       },
+      body:JSON.stringify(item), });
     const data = await result.json();
     setItems([...items, data.item]);
   };
 
   const del = async (id) => {
-    await fetch("http://localhost:5000/items/" + id, {method:"DELETE"});
+    await fetch("http://localhost:5000/items/" + id, {
+      method:"DELETE",
+      headers:{
+        "Authorization": localStorage.getItem("Token")
+       },
+    });
     setItems(items.filter((item) => item.id !== id));
   };
 
