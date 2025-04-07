@@ -12,14 +12,22 @@ function App() {
   const [items, setItems] = useState([]);
   // const [count, setCount] = useState(0);
   const [isLogin, setIsLogin] = useState(false);
-  useEffect(() => {if (isLogin) {getItems();}}, [isLogin ]);
+  useEffect(() => {if (isLogin) {getItems();}}, [isLogin]);
 
   const getItems = async () => {
-    const result = await fetch("http://localhost:5000/items/");
+    const result = await fetch("http://localhost:5000/items/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("Token")
+      },
+    });
+  
     const data = await result.json();
     setItems(data);
-
   };
+  
+  
   
   //const sum = () => {
     // setCount(count + 1);
@@ -30,7 +38,7 @@ function App() {
 
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch("http://localhost:5000/items/", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(item), });
+    const result = await fetch("http://localhost:5000/items/", {method:"POST", headers:{"content-type":"application/json", }, body:JSON.stringify(item), });
     const data = await result.json();
     setItems([...items, data.item]);
   };
@@ -40,12 +48,22 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
+
   const login = async (user) => {
-    const result = await fetch("http://localhost:5000/login/", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(user), });
+    const result = await fetch("http://localhost:5000/login/", {
+      method:"POST",
+      headers:{"content-type":"application/json"
+      },
+      body:JSON.stringify(user),
+    });
     const data = await result.json();
+    localStorage.setItem("Token", data.token);
+    console.log(getItems("Token"));
     setIsLogin(data.isLogin);
-    return isLogin;
+    return data.isLogin;
   };
+
+
 
   const logout = () => {
     setIsLogin(false);
