@@ -43,7 +43,7 @@ function App() {
   };
 
   const del = async (id) => {
-    await fetch(`${apiUrl }:5000/items/` + id, {
+    await fetch(`${apiUrl }/items/` + id, {
       method:"DELETE",
       headers:{
         "Authorization": localStorage.getItem("Token")
