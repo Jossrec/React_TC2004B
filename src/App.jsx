@@ -8,8 +8,7 @@ import ResponsiveAppBar from './components/AppBar.jsx';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
-const apiUrl = process.env.API_URL;
-
+const apiUrl = process.env.API_URL || "https://tc2004bbackend-production.up.railway.app";
 function App() {
   const [items, setItems] = useState([]);
   // const [count, setCount] = useState(0);
