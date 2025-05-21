@@ -8,7 +8,7 @@ import ResponsiveAppBar from './components/AppBar.jsx';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
-const apiUrl = import.meta.env.API_URL;
+const apiUrl = process.env.API_URL;
 
 function App() {
   const [items, setItems] = useState([]);
