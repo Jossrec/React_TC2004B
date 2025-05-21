@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {if (isLogin) {getItems();}}, [isLogin]);
 
   const getItems = async () => {
-    const result = await fetch(`${apiUrl }:5000/items/`, {
+    const result = await fetch(`${apiUrl }/items/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ function App() {
   
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch(`${apiUrl }:5000/items/`, {
+    const result = await fetch(`${apiUrl }/items/`, {
       method:"POST", 
       headers:{
         "content-type":"application/json",
@@ -54,7 +54,7 @@ function App() {
 
 
   const login = async (user) => {
-    const result = await fetch(`${apiUrl }:5000/login/`, {
+    const result = await fetch(`${apiUrl }/login/`, {
       method:"POST",
       headers:{"content-type":"application/json"
       },
