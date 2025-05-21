@@ -8,6 +8,8 @@ import ResponsiveAppBar from './components/AppBar.jsx';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
+const apiUrl = import.meta.env.API_URL;
+
 function App() {
   const [items, setItems] = useState([]);
   // const [count, setCount] = useState(0);
@@ -15,7 +17,7 @@ function App() {
   useEffect(() => {if (isLogin) {getItems();}}, [isLogin]);
 
   const getItems = async () => {
-    const result = await fetch("http://localhost:5000/items/", {
+    const result = await fetch(`${apiUrl }:5000/items/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +31,7 @@ function App() {
   
   const add = async (item) => {
     //item.id = items.length + 1; 
-    const result = await fetch("http://localhost:5000/items/", {
+    const result = await fetch(`${apiUrl }:5000/items/`, {
       method:"POST", 
       headers:{
         "content-type":"application/json",
@@ -41,7 +43,7 @@ function App() {
   };
 
   const del = async (id) => {
-    await fetch("http://localhost:5000/items/" + id, {
+    await fetch(`${apiUrl }:5000/items/` + id, {
       method:"DELETE",
       headers:{
         "Authorization": localStorage.getItem("Token")
@@ -52,7 +54,7 @@ function App() {
 
 
   const login = async (user) => {
-    const result = await fetch("http://localhost:5000/login/", {
+    const result = await fetch(`${apiUrl }:5000/login/`, {
       method:"POST",
       headers:{"content-type":"application/json"
       },
